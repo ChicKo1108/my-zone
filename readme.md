@@ -64,4 +64,4 @@
 - 琐碎知识点速记
     - path.resolve()：可理解为从左到右cd操作。(https://blog.csdn.net/kikyou_csdn/article/details/83150538)
     - react-router-dom 高本版（6）和低版本的区别：https://blog.csdn.net/weixin_60463255/article/details/121581160
-
+    - webpack-dev-server配置：`historyApiFallback` 不是很好地解释：https://www.jianshu.com/p/b5248d441d9e

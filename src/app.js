@@ -6,9 +6,13 @@ import './app.scss';
 
 ReactDOM.render(
     <Router>
-        <Routes>
-            { routers.map(({ path, element }) => (<Route path={path} element={element} />)) }
-        </Routes>
+        <div className='app-wrapper'>
+            <div className='page-wrapper'>
+                <Routes>
+                    { routers.map(({ path, element }) => (<Route path={path} element={element} />)) }
+                </Routes>
+            </div>
+        </div>
     </Router>
     // <Home />
 ,document.getElementById('app'));
