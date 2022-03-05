@@ -9,7 +9,7 @@ ReactDOM.render(
         <div className='app-wrapper'>
             <div className='page-wrapper'>
                 <Routes>
-                    { routers.map(({ path, element }) => (<Route path={path} element={element} />)) }
+                    { routers.map(({ path, element }) => (<Route path={path} element={element} key={path} />)) }
                 </Routes>
             </div>
         </div>

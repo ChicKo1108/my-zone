@@ -6,6 +6,7 @@
 .app-wrapper {
     width: 100%;
     background-color: #f9f9f9;
+    min-height: 100vh;
 }
 
 .page-wrapper {
@@ -13,4 +14,5 @@
     margin: 0 auto;
     position: relative;
     background-color: #fff;
+    min-height: 100vh;
 }
