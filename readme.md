@@ -38,6 +38,23 @@
     - 代码热更新 `webpack-dev-server` `html-webpack-plugin`
         - webpack-dev-server：热更新插件
         - html-webpack-plugin：每次动态的将打包后的js、css文件加入到index.html页面中
+    - webpack区分环境：(https://juejin.cn/post/6844903779209314317)
+        - 开发环境：
+            1. 热更新
+            2. sourceMap
+            3. 接口代理
+            4. 代码规范检查工具
+        - 生产环境：
+            1. 提取公共代码
+            2. 压缩混淆
+            3. 文件压缩
+            4. 去除无用代码
+        - 公共需求：
+            1. 入口
+            2. loader
+            3. 解析配置
+        - 需要使用`webpack-merge` `cross-env`
+
 
 - 搭建项目目录
     - src 存放资源文件
