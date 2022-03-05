@@ -1,0 +1,79 @@
+#write {
+  font-size: 18px;
+  color: #333;
+  h1 {
+    text-align: center;
+    line-height: 2.2em;
+  }
+
+  h2 {
+    line-height: 2.2em;
+  }
+  
+  h3 {
+    line-height: 2.0em;
+  }
+
+  h4 {
+    line-height: 1.8em;
+  }
+
+  h5, h6 {
+    line-height: 1.8em;
+    font-size: 1em;
+  }
+
+  hr {
+    height: 1.5px;
+    margin: 20px 0;
+    background-color: #efefef;
+    border: none;
+  }
+
+  blockquote {
+    padding: 15px 30px 20px;
+    margin: 20px 0;
+    border-left: 3px solid #eee;
+    background-color: #fafafa;
+    color: #999;
+  }
+
+  code {
+    background-color: #eee;
+    padding: 5px 10px;
+    margin: 0 10px;
+    border-radius: 0.5em;
+    color: #a00000;
+    font-size: .8em;
+  }
+
+  ul, ol {
+    padding: 0 40px;
+    li {
+      line-height: 1.6em;
+    }
+  }
+
+  ol li {
+    &::marker {
+      font-size: 0.8em;
+      color: #1000a0;
+    }
+  }
+
+  ul ol, ul ul, ol ol, ol ul {
+    padding: 0 20px;
+  }
+
+  img {
+    margin: 0 auto;
+  }
+
+  p {
+    margin: 0.5em 0;
+  }
+
+  a {
+    font-size: 0.8em;
+  }
+}

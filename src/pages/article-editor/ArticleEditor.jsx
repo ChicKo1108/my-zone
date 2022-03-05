@@ -1,16 +1,16 @@
 import React, { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import './notion-light-classic.css';
 import './style.scss';
+import './markdown.scss';
 
 const SCROLL_AREA = {
     SHOW: 'SHOW',
     WRITE: 'WRITE',
 };
-let currentOperationArea = '';
-let scrollingEl = '';
+let currentOperationArea = ''; // 主动操作的区域
+let timer = null;
 
-function handleScroll(event, targetEl) {
+function handleScroll(event, targetEl, scrollingEl) {
     if (scrollingEl === SCROLL_AREA.SHOW) {
         if (currentOperationArea === '') currentOperationArea = SCROLL_AREA.SHOW;
         else if (currentOperationArea === SCROLL_AREA.WRITE) return;
@@ -24,11 +24,11 @@ function handleScroll(event, targetEl) {
 
 function scrollEl(event, targetEl) {
     const { scrollHeight, scrollTop } = event.currentTarget;
-    targetEl.current.scrollTo({
-        top: targetEl.current.scrollHeight * (scrollTop / scrollHeight),
-        behavior: 'smooth'
-    });
-    currentOperationArea = '';
+    targetEl.current.scrollTop = targetEl.current.scrollHeight * (scrollTop / scrollHeight);
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+        currentOperationArea = '';
+    }, 200);
 }
 
 const TextArea = ({ setText, writeMdRef, showMdRef }) => {
@@ -38,8 +38,7 @@ const TextArea = ({ setText, writeMdRef, showMdRef }) => {
                 ref={writeMdRef}
                 onChange={(e) => setText(e.target.value)}
                 onScroll={(e) => {
-                    currentOperationArea = SCROLL_AREA.WRITE;
-                    scrollEl(e, showMdRef, SCROLL_AREA.WRITE);
+                    handleScroll(e, showMdRef, SCROLL_AREA.WRITE);
                 }}
             />
         </div>
@@ -47,30 +46,28 @@ const TextArea = ({ setText, writeMdRef, showMdRef }) => {
 };
 
 const ShowMdArea = ({ showMdRef, mdTexts, writeMdRef }) => {
-
     return (
         <div
             id="write"
             ref={showMdRef}
             className="markdown-render"
             onScroll={(e) => {
-                currentOperationArea = SCROLL_AREA.SHOW;
-                scrollEl(e, writeMdRef, SCROLL_AREA.SHOW);
+                handleScroll(e, writeMdRef, SCROLL_AREA.SHOW);
             }}>
-                <ReactMarkdown children={mdTexts} className="markdown-render-area" />
+                <ReactMarkdown children={mdTexts} />
             </div>
     )
 }
 
 const ArticleEditor = () => {
     const [ mdTexts, setMdText ] = useState('');
-    const [ scrollRate, setScrollRate ] = useState(0);
     const showMdRef = useRef(null);
     const writeMdRef = useRef(null);
     
     return (
         <div className="article-editor">
             <TextArea showMdRef={showMdRef} writeMdRef={writeMdRef} setText={setMdText}  />
+            {/* 未使用组件`ShowMdArea`原因：无法获取函数组件内的ref */}
             <ShowMdArea showMdRef={showMdRef} writeMdRef={writeMdRef} mdTexts={mdTexts} />
         </div>
     )
