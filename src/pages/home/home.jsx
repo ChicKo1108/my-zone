@@ -54,7 +54,7 @@ const ContinueButton = () => {
     return (
         <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} className='continue-button'>
             <span>Continue</span>
-            <div className='img' style={{ backgroundImage: `url(${isHover ? heartWhite : heart})` }}></div>
+            <div className='img' style={{ backgroundImage: `url(${isHover ? heart : heartWhite})` }}></div>
         </div>
     )    
 }

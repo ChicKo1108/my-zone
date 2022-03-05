@@ -1,0 +1,68 @@
+.article-list {
+  padding-bottom: 200px;
+  h1 {
+    padding-top: 200px;
+    font-size: 32px;
+    line-height: 38px;
+    margin-bottom: 53px;
+
+  }
+
+  .article-card {
+    margin-top: 46px;
+    cursor: pointer;
+
+    &:hover {
+      .article-title, .article-content {
+        color: #7ab6d9;
+      }
+    }
+
+    .time,
+    .item {
+      font-size: 14px;
+      color: #7ab6d9;
+    }
+
+    .article-title {
+      font-size: 26px;
+      line-height: 30px;
+      font-weight: bold;
+      margin: 16px 0;
+      transition: color .3s;
+    }
+
+    .article-content {
+      font-size: 18px;
+      line-height: 30px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      transition: color .3s;
+    }
+
+    .infos {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 24px;
+      cursor: pointer;
+      .item {
+        display: flex;
+        align-items: center;
+        margin-right: 50px;
+        span {
+          color: #7ab6d9;
+        }
+        img {
+          width: 24px;
+          height: 24px;
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
