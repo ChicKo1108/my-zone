@@ -1,7 +1,8 @@
 .home {
+  box-sizing: border-box;
   position: relative;
-  height: 100vh;
   min-height: 720px;
+  padding-bottom: 200px;
   .main-info {
     width: 960px;
     padding-top: 30%;
