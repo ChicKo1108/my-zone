@@ -5,14 +5,18 @@
 
 .app-wrapper {
     width: 100%;
-    background-color: #f9f9f9;
+    background: linear-gradient(135deg, #1C2B35 0%, #111A20 100%);
     min-height: 100vh;
 }
 
 .page-wrapper {
-    width: 1200px;
+    width: 960px;
     margin: 0 auto;
     position: relative;
-    background-color: #fff;
+    // background-color: #fff;
     min-height: 100vh;
+}
+
+.white {
+    color: #fff;
 }
