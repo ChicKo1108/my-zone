@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "components/header/header";
 import "./article-list.scss";
 
 // images
@@ -36,7 +35,6 @@ const ArticleCard = () => {
 const ArticleList = () => {
   return (
     <div className="article-list">
-      <Header />
       <h1>文章</h1>
       <ArticleCard />
       <ArticleCard />

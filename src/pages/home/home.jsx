@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Header from 'components/header/header';
 import './home.scss';
 import './home.css';
 
@@ -62,7 +61,6 @@ class Home extends React.Component {
     render() {
         return (
             <div className='home'>
-                <Header />
                 <MainInfo />
                 <DescInfo />
                 <ContinueButton />
