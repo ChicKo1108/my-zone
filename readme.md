@@ -82,3 +82,11 @@
     - path.resolve()：可理解为从左到右cd操作。(https://blog.csdn.net/kikyou_csdn/article/details/83150538)
     - react-router-dom 高本版（6）和低版本的区别：https://blog.csdn.net/weixin_60463255/article/details/121581160
     - webpack-dev-server配置：`historyApiFallback` 不是很好地解释：https://www.jianshu.com/p/b5248d441d9e
+
+- 遇到的问题 & 解决方案速记
+    1. Q: `react-router-dom`路由直接输入无法匹配，通过link跳转则可以
+        - A：webpack-dev-server中没有配置`historyApiFallback`
+    2. Q：`scss`文件中使用@keyfrmes关键字，导致编译报错。
+        - A：没有找到相关解释，新建了一个css文件，专门写动画。
+    3. Q：开发环境webpack编译速度过慢
+        - A：区分webpack运行环境，加载不同的配置文件。
