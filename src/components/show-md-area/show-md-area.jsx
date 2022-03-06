@@ -5,9 +5,9 @@ import './md.scss';
 const ShowMdArea = ({ el, onScroll, className, renderTexts }) => (
   <div
     id="write"
-    ref={el}
+    // ref={el}
     className={className}
-    onScroll={(e) => onScroll(e)}>
+    onScroll={(e) => onScroll && onScroll(e)}>
     <ReactMarkdown children={renderTexts} />
   </div>
 )
