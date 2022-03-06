@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Header from 'components/header/header';
 import './home.scss';
 import './home.css';
 
@@ -54,7 +53,7 @@ const ContinueButton = () => {
     return (
         <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} className='continue-button'>
             <span>Continue</span>
-            <div className='img' style={{ backgroundImage: `url(${isHover ? heartWhite : heart})` }}></div>
+            <div className='img' style={{ backgroundImage: `url(${isHover ? heart : heartWhite})` }}></div>
         </div>
     )    
 }
@@ -62,7 +61,6 @@ class Home extends React.Component {
     render() {
         return (
             <div className='home'>
-                <Header />
                 <MainInfo />
                 <DescInfo />
                 <ContinueButton />

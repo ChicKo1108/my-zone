@@ -1,20 +1,33 @@
 header {
-  height: 100px;
+  height: 80px;
   width: 100%;
-  position: absolute;
+  min-width: 960px;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-  font-size: 18px;
-  line-height: 21px;
-  letter-spacing: 0.1em;
+  position: fixed;
+  z-index: 99;
+  transition: background-color .3s;
+  
+  .header-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.1em;
+    width: 960px;
+    height: 100%;
+    margin: 0 auto;
+  }
 
   .personal-info {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    &:hover span {
+      color: #416883;
+    }
     img {
       width: 26px;
       height: 26px;
