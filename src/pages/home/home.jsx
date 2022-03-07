@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './home.scss';
 import './home.css';
+import HttpClient from "../../utils/axios";
+import Utils from '../../utils';
+import toast from '../../utils/toast';
 
 import heart from 'images/green-heart.png';
 import heartWhite from 'images/white-heart.png';
@@ -20,7 +23,7 @@ function renderSlogen(slogen, currentIndex, el) {
     }, timeset);
 }
 
-const MainInfo = () => {
+const MainInfo = ({ username }) => {
     const slogenRef = useRef(null);
     const slogen = ['一个', '还', '在', '成长', '的', 'web', '前端', '开', '发', '工程师', '.'];
     
@@ -30,23 +33,33 @@ const MainInfo = () => {
 
     return (
         <div className='main-info'>
-            Hi~ 我是<span className='white'>「千万」</span>,
+            Hi~ 我是<span className='white'>「{username}」</span>,
             <br />
             <span ref={slogenRef} className="slogen flash"/>
         </div>
     )
 }
 
-const DescInfo = () => (
-    <div className='desc-info'>
-        我喜欢钻研各类技术，热爱分享知识，擅长定位错误，并积极寻求解决方案。欢迎访问我的
-        <a target="_blank" href="https://github.com/ChicKo1108"><span className='github'>Github</span></a>
-        ，或者添加我为
-        {/* TODO: 微信弹窗 */}
-        <span className='wx'>微信</span>
-        好友共同探讨编程知识。
-    </div>
-)
+const DescInfo = ({ wx }) => {
+    const [ isShowWxModal, setIsShowWxModal ] = useState(false);
+    return (
+        <div className='desc-info'>
+            我喜欢钻研各类技术，热爱分享知识，擅长定位错误，并积极寻求解决方案。欢迎访问我的
+            <a target="_blank" href="https://github.com/ChicKo1108"><span className='github'>Github</span></a>
+            ，或者添加我为
+            <div
+                className='wx'
+                onMouseMove={() => setIsShowWxModal(true)}
+                onMouseLeave={() => setIsShowWxModal(false)}
+                onClick={() => { Utils.doCopy(wx);toast.showToast('复制成功!', 2) }}
+            >
+                微信
+                { isShowWxModal ? <div className='wx-modal'>{wx}</div> : null }
+            </div>
+            好友共同探讨编程知识。
+        </div>
+    );
+}
 
 const ContinueButton = () => {
     const [ isHover, setIsHover ] = useState(false);
@@ -58,14 +71,40 @@ const ContinueButton = () => {
     )    
 }
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            baseInfo: {
+                username: '',
+                wx: '',
+            },
+            showPage: false,
+        }
+    }
+
+    async componentDidMount() {
+        const res = await HttpClient.get('/api/user/baseInfo');
+        if (res.data.code === 200) {
+            console.log(res.data.data.data[0]);
+            this.setState({
+                baseInfo: {
+                    username: res.data.data.data[0].username,
+                    wx: res.data.data.data[0].wx,
+                },
+                showPage: true,
+            });
+        }
+    }
+
     render() {
-        return (
+        const { username, wx } = this.state.baseInfo;
+        return this.state.showPage ? (
             <div className='home'>
-                <MainInfo />
-                <DescInfo />
+                <MainInfo username={username} />
+                <DescInfo wx={wx} />
                 <ContinueButton />
             </div>
-        )
+        ) : null
     }
 }
 

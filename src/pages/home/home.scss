@@ -53,6 +53,22 @@
       color: #07C160;
       text-decoration: underline;
       margin: 0 5px;
+      position: relative;
+      display: inline-block;
+      text-indent: 0;
+      cursor: pointer;
+
+      .wx-modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba($color: #000, $alpha: 0.8);
+        font-size: 22px;
+        padding: 5px 10px;
+        box-shadow: 14px 11px 10px #141414a6;
+        transform: translateY(-100%);
+        border-radius: 6px;
+      }
     }
   }
 
