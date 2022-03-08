@@ -69,17 +69,30 @@
     border-radius: 16px;
     background-color: #fff;
 
-    textarea {
+    .textarea-wrapper {
+      position: relative;
       width: 100%;
-      resize: none;
-      border: none;
-      outline: none;
-      color: #333;
-      font-size: 18px;
-      line-height: 22px;
-      min-height: 500px;
-      min-height: 54px;
+      textarea {
+        width: 100%;
+        resize: none;
+        border: none;
+        outline: none;
+        color: #333;
+        font-size: 18px;
+        line-height: 26px;
+        min-height: 500px;
+        min-height: 54px;
+      }
+      .reply-tip {
+        color: #333;
+        font-size: 18px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        user-select: none;
+      }
     }
+
 
     .button-area {
       width: 100%;
@@ -112,6 +125,11 @@
         font-size: 18px;
         margin-left: 29px;
         border-radius: 19px;
+        cursor: pointer;
+        transition: box-shadow .2s;
+        &:hover {
+          box-shadow: 3px 3px 10px #e3e3e3;
+        }
       }
 
       .commit {

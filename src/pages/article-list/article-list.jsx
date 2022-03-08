@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import HttpClient from "../../utils/axios";
 import "./article-list.scss";
 
 // images
@@ -7,25 +8,26 @@ import comment from "images/comment.png";
 import eye from "images/eye.png";
 import { useNavigate } from "react-router-dom";
 
-const ArticleCard = () => {
+const ArticleCard = ({ article }) => {
+  const { id, title, intro, createAt, view, like, comment: commentCount } = article;
   const navigate = useNavigate();
   return (
-    <div onClick={() => navigate('/article')} className="article-card">
-      <div className="time">2022年3月5日</div>
-      <div className="article-title">安卓知识点</div>
-      <div className="article-content">分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点</div>
+    <div onClick={() => navigate('/article?id=' + id)} className="article-card">
+      <div className="time">{createAt}</div>
+      <div className="article-title">{title}</div>
+      <div className="article-content">{intro}</div>
       <div className="infos">
         <div className="item">
           <img src={eye} />
-          <span>145</span>  
+          <span>{view}</span>  
         </div>
         <div className="item">
           <img src={blueHeart} />
-          <span>1</span>  
+          <span>{like}</span>  
         </div>
         <div className="item">
           <img src={comment} />
-          <span>0</span>  
+          <span>{commentCount}</span>  
         </div>
       </div>
     </div>
@@ -33,13 +35,18 @@ const ArticleCard = () => {
 }
 
 const ArticleList = () => {
+  const [ articleList, setArticleList ] = useState([]);
+  useEffect(() => {
+    HttpClient.get('/api/article/all').then(({ data }) => {
+      if (data.code = 200) {
+        setArticleList(data.data);
+      }
+    });
+  }, []);
   return (
     <div className="article-list">
       <h1>文章</h1>
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
+      { articleList.length && articleList.map(v => <ArticleCard article={v} key={v.id} />) }
     </div>
   )
 }

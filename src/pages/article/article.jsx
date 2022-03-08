@@ -1,16 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import './article.scss';
 import ShowMdArea from 'components/show-md-area/show-md-area';
 import { KEYBOARD } from 'enums/keyboard';
+import HttpClient from "../../utils/axios";
+import Utils from "../../utils";
+import toast from "../../utils/toast";
 
 // images
 import blueHeart from "images/blue-heart.png";
 import blankHeart from "images/heart-blank.png";
 import comment from "images/comment.png";
 import eye from "images/eye.png";
-
-const texts = `分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些， 分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，分享一些安卓知识点，`;
 
 // textarea高度根据内容变化
 function setTextareaHeight (event, el) {
@@ -20,21 +21,37 @@ function setTextareaHeight (event, el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
-const ArticleInfo = () => (
+// 整理评论的结构
+function formatCommentTree (commentList) {
+  const tree = [];
+  for (let i = 0; i < commentList.length; i++) {
+    const comment = commentList[i];
+    if (!comment.replyId) {
+      tree.push({ ...comment, children: [], childrenIds: [ comment.id ] });
+    } else {
+      const target = tree.find(v => v.childrenIds.includes(comment.replyId));
+      target.children.push(comment);
+      target.childrenIds.push(comment.id);
+    }
+  }
+  return tree;
+}
+
+const ArticleInfo = ({ article }) => (
   <div className="article-info">
-    <span className="time">2022年3月5日</span>
+    <span className="time">{new Date(article.createdAt).format('yyyy年MM月dd日 hh:mm:ss')}</span>
     <div className="infos">
       <div className="info-item">
         <img src={eye} />
-        <span>145</span>
+        <span>{article.view}</span>
       </div>
       <div className="info-item">
         <img src={blueHeart} />
-        <span>1</span>
+        <span>{article.like}</span>
       </div>
       <div className="info-item">
         <img src={comment} />
-        <span>0</span>
+        <span>{article.commentCount}</span>
       </div>
     </div>
   </div>
@@ -48,82 +65,157 @@ const LikeButton = ({ isLike, handleClick }) => (
   />
 );
 
-const CommentWrapper = () => {
+const CommentWrapper = ({ replyInfo, commitReply, setReplyInfo }) => {
+  const [ replyName, setReplyName ] = useState('');
   const commentTextRef = useRef(null);
   return (
     <div className="comment-wrapper">
+      <div className="textarea-wrapper">
         <textarea
+          style={{ textIndent: replyInfo.replyTo ? replyInfo.replyTo.length + 3 + 'em' : 0 }}
           ref={commentTextRef}
           onInput={(e) => { setTextareaHeight(e, commentTextRef.current) }}
           onKeyDown={(e) => { setTextareaHeight(e, commentTextRef.current) }}
         />
+        { replyInfo.replyTo && <span className="reply-tip">回复 {replyInfo.replyTo}：</span> }
+      </div>
         <div className="button-area">
           <div className="alias">
             <label>
               昵称
-              <input type="text" />
+              <input type="text" onInput={(v) => setReplyName(v.target.value)} />
             </label>
           </div>
-          <div className="commit">发表评论</div>
-          <div className="cancel">取消</div>
+          <div className="commit" onClick={() => { commitReply(replyName, commentTextRef.current, replyInfo.replyId) }}>发表评论</div>
+          { replyInfo.replyId && <div className="cancel" onClick={() => { setReplyInfo({}); }}>取消</div>}
         </div>
     </div>
   );
 }
 
-const ChatWrapper = () => (
-  <div className="chat-wrapper">
+const ChatWrapper = ({ comments, setReplyInfo }) => comments.map(v => (
+  <div key={v.id} className="chat-wrapper">
     <div className="main-chat">
       <div className="main-name">
-        <span className="name">小飞侠</span>
-        <span className="time">2022.03.05 22:12:06</span>  
-        <img className="reply-btn" src={comment} alt="回复" />
+        <span className="name">{ v.username }</span>
+        <span className="time">{ new Date(v.createdAt).format('yyyy-MM-dd hh:mm:ss') }</span>  
+        <img onClick={() => setReplyInfo({ replyId: v.id, replyTo: v.username })} className="reply-btn" src={comment} alt="回复" />
       </div>
-      <div className="content">关于fragment的介绍还是没看懂，能再仔细讲讲吗？</div>    
+      <div className="content">{v.content}</div>    
     </div>
-    <div className="reply">
-      <div className="reply-name">
-        <span className="name">绿巨人 回复 小飞侠</span>
-        <span className="time">2022.03.05 22:13:12</span>
-        <img className="reply-btn" src={comment} alt="回复" />
+    { v.children.map(c => (
+      <div key={c.id} className="reply">
+        <div className="reply-name">
+          <span className="name">{c.username} 回复 {v.id === c.replyId ? v.username : v.children.find(f => f.id === c.replyId).username}</span>
+          <span className="time">{ new Date(c.createdAt).format('yyyy-MM-dd hh:mm:ss') }</span>
+          <img onClick={() => setReplyInfo({ replyId: c.id, replyTo: c.username })} className="reply-btn" src={comment} alt="回复" />
+        </div>
+        <div className="content">{c.content}</div>
       </div>
-      <div className="content">Fragment不能单独使用，要在Activity中进行使用。并且它具有独立的生命周期。Fragment不能单独使用，要在Activity中进行使用。并且它具有独立的生命周期。Fragment不能单独使用，要在Activity中进行使用。并且它具有独立的生命周期。</div>
-    </div>
-    <div className="reply">
-      <div className="reply-name">
-        <span className="name">小飞侠 回复 绿巨人</span>
-        <span className="time">2022.03.05 22:13:12</span>
-        <img className="reply-btn" src={comment} alt="回复" />
-      </div>
-      <div className="content">终于弄明白了，谢谢！</div>
-    </div>
+    )) }
   </div>
-)
+))
 
-const CommentList = () => (
-  <div className="comment-list">
-    <h2>评论（0）</h2>
-    <CommentWrapper />
-    <ChatWrapper />
-    <ChatWrapper />
-    <ChatWrapper />
-  </div>
-);
+const CommentList = ({ comments, commitReply, count }) => {
+  const [ replyInfo, setReplyInfo ] = useState({ replyId: null, replyTo: '' });
+
+  return (
+    <div className="comment-list">
+      <h2>评论（{count}）</h2>
+      <CommentWrapper commitReply={commitReply} replyInfo={replyInfo} setReplyInfo={setReplyInfo} />
+      <ChatWrapper comments={comments} setReplyInfo={setReplyInfo} />
+    </div>
+  )
+};
 
 const Article = () => {
   const [ isLike, setIsLike ] = useState(false);
-  
+  const [ article, setArticle ] = useState({});
+  const [ comments, setComments ] = useState([]);
+  useEffect(() => {
+    const id = Utils.getQuery('id');
+    HttpClient.post('/api/article/view', { id })
+      .then(() => console.log('article view is upload.'))
+      .then(() => {
+        Promise.all([
+          HttpClient.get('/api/article?id=' + id),
+          HttpClient.get('/api/article/comment?articleId=' + id),
+        ]).then(([ res1, res2 ]) => {
+          if (res1.data.code === 200) {
+            setArticle(res1.data.data[0]);
+          }
+          if (res2.data.code === 200) {
+            setComments(formatCommentTree(res2.data.data));
+          }
+        })
+      });
+    // 回填点赞
+    const likeList = JSON.parse(localStorage.getItem('likeList') || '[]');
+    setIsLike(likeList.includes(Number(id)));
+  }, []);
+  // 提交评论
+  function commitReply(replyName, textEl, replyId) {
+    if (!article.id) {
+      toast.showToast('缺少关键参数，请刷新页面');
+      return;
+    }
+    if (!replyName) {
+      toast.showToast('请先填写昵称');
+      return;
+    }
+    if (!textEl.value) {
+      toast.showToast('请填写评论内容');
+      return;
+    }
+    HttpClient.post('/api/article/comment', {
+      articleId: article.id,
+      username: replyName,
+      content: textEl.value,
+      replyId,
+    }).then(() => {
+      toast.showToast('评论成功');
+      textEl.value = '';
+      setTextareaHeight({}, textEl);
+    }).then(() => {
+      HttpClient.get('/api/article/comment?articleId=' + article.id)
+        .then((res) => {
+          if (res.data.code === 200) {
+            setComments(formatCommentTree(res.data.data));
+          }
+        })
+    })
+  }
+  // 点赞
   function handleLikeClick() {
-    setIsLike(!isLike);
+    const likeList = JSON.parse(localStorage.getItem('likeList') || '[]');
+    if (!isLike) {
+      HttpClient.post('/api/article/like', { id: article.id }).then(({ data }) => {
+        if (data.code === 200) {
+          setIsLike(true);
+          toast.showToast('感谢您的喜欢');
+          likeList.push(article.id);
+          localStorage.setItem('likeList', JSON.stringify(likeList));
+        }
+      })
+    } else {
+      HttpClient.post('/api/article/dislike', { id: article.id }).then(({ data }) => {
+        if (data.code === 200) {
+          setIsLike(false);
+          likeList.splice(likeList.findIndex(v => v === article.id), 1);
+          toast.showToast('取消点赞');
+          localStorage.setItem('likeList', JSON.stringify(likeList));
+        }
+      });
+    }
   }
 
   return (
     <div className="article-detail">
-      <h1>安卓知识点</h1>
-      <ArticleInfo />
-      <ShowMdArea renderTexts={texts} className="md-area" />
+      <h1>{article.title}</h1>
+      <ArticleInfo article={article} />
+      <ShowMdArea renderTexts={article.content} className="md-area" />
       <LikeButton isLike={isLike} handleClick={handleLikeClick} />
-      <CommentList />
+      <CommentList comments={comments} count={article.commentCount} commitReply={commitReply} />
     </div>
   )
 };

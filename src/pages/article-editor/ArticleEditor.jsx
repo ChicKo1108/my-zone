@@ -154,11 +154,15 @@ const ArticleEditor = () => {
     const writeMdRef = useRef(null);
     
     return (
-        <div className="article-editor">
-            <TextArea showMdRef={showMdRef} writeMdRef={writeMdRef} setText={setMdText}  />
-            {/* 未使用组件`ShowMdArea`原因：无法获取函数组件内的ref */}
-            <ShowMdArea showMdRef={showMdRef} writeMdRef={writeMdRef} mdTexts={mdTexts} />
-        </div>
+        <>
+            <input textarea="输入文章标题" />
+            <textarea textarea="输入文章简介"></textarea>
+            <div className="article-editor">
+                <TextArea showMdRef={showMdRef} writeMdRef={writeMdRef} setText={setMdText}  />
+                {/* 未使用组件`ShowMdArea`原因：无法获取函数组件内的ref */}
+                <ShowMdArea showMdRef={showMdRef} writeMdRef={writeMdRef} mdTexts={mdTexts} />
+            </div>
+        </>
     )
 }
 

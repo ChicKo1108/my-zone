@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import routers from './routers/routers';
 import Header from 'components/header/header';
 import './app.scss';
+import HttpClient from './utils/axios';
+
+HttpClient.post('/api/user/view').then(() => console.log('new UV is uploaded.'));
 
 ReactDOM.render(
     <Router>
