@@ -169,14 +169,16 @@ const ArticleEditor = () => {
             title,
             intro,
             content: mdTexts,
-        }).then(({ data }) => {
-            if (data.code === 200) {
+        }).then((res) => {
+            if (res.data.code === 200) {
                 toast.showToast('发表成功！');
                 setTimeout(() => {
                     navigate.replace('/article?id=' + data.data.insertId);
                 }, 1000);
             }
             // console.log(data);
+        }).catch(err => {
+            toast.showToast(err.message)
         })
     }
     

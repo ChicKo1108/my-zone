@@ -1,0 +1,21 @@
+.login-pannel {
+  padding-top: 200px;
+
+  div {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+
+    input, button {
+      box-sizing: border-box;
+      width: 250px;
+      height: 30px;
+      padding: 0 20px;
+      color: #333;
+    }
+
+    button {
+      
+    }
+  }
+}
