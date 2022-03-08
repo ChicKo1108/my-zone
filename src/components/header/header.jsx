@@ -12,11 +12,10 @@ const navList = [
 
 const Header = () => {
   const navigate = useNavigate();
-  const [ baseInfo, setBaseInfo ] = useState({});
+  const [baseInfo, setBaseInfo] = useState({});
   useEffect(() => {
     HttpClient.get('/api/user/baseInfo').then(({ data }) => {
       if (data.code === 200) {
-        console.log(data.data.data[0]);
         setBaseInfo(data.data.data[0]);
       }
     });

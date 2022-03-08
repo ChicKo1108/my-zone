@@ -85,7 +85,6 @@ class Home extends React.Component {
     async componentDidMount() {
         const res = await HttpClient.get('/api/user/baseInfo');
         if (res.data.code === 200) {
-            console.log(res.data.data.data[0]);
             this.setState({
                 baseInfo: {
                     username: res.data.data.data[0].username,

@@ -15,7 +15,6 @@ class Toast {
     el.innerText = content;
     document.body.appendChild(el);
     this.currentNum += 1;
-    console.log(this.currentNum);
     setTimeout(() => {
       document.body.removeChild(el);
       this.currentNum -= 1;
