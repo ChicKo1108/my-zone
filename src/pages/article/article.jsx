@@ -176,6 +176,7 @@ const Article = () => {
       toast.showToast('评论成功');
       textEl.value = '';
       setTextareaHeight({}, textEl);
+      setArticle({ ...article, commentCount: article.commentCount + 1 });
     }).then(() => {
       HttpClient.get('/api/article/comment?articleId=' + article.id)
         .then((res) => {
