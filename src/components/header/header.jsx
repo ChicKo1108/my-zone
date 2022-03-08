@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './header.scss';
+import HttpClient from "../../utils/axios";
 
 import avatar from 'images/my-avatar.jpg';
 const navList = [
@@ -11,6 +12,15 @@ const navList = [
 
 const Header = () => {
   const navigate = useNavigate();
+  const [ baseInfo, setBaseInfo ] = useState({});
+  useEffect(() => {
+    HttpClient.get('/api/user/baseInfo').then(({ data }) => {
+      if (data.code === 200) {
+        console.log(data.data.data[0]);
+        setBaseInfo(data.data.data[0]);
+      }
+    });
+  }, [])
   console.log('header渲染');
   setTimeout(() => {
     const header = document.getElementById('header');
@@ -26,9 +36,12 @@ const Header = () => {
   return (
     <header id="header">
       <div className="header-center">
-        <div onClick={() => { navigate('/') }} className="personal-info">
-          <img src={avatar} alt="my-avatar" />
-          <span>千万</span>
+        <div className="personal-info">
+          <div onClick={() => { navigate('/') }} >
+            <img src={avatar} alt="my-avatar" />
+            <span>{baseInfo.username}</span>
+          </div>
+          <span style={{ color: '#efefef', fontSize: '12px', marginLeft: '50px' }}>(当前网站访问人次：{baseInfo.view || 0})</span>
         </div>
         <ul className="nav">
           {navList.map(({ name, path }) => (

@@ -24,9 +24,13 @@ header {
   .personal-info {
     display: flex;
     align-items: center;
-    cursor: pointer;
-    &:hover span {
-      color: #416883;
+    div {
+      display: flex;
+      align-items: center;
+      &:hover span {
+        color: #416883;
+      }
+      cursor: pointer;
     }
     img {
       width: 26px;

@@ -26,7 +26,6 @@ class Utils {
     if (document.execCommand('copy')) {
       input.select();
       document.execCommand('copy');
-      console.log('复制成功');
     }
     document.body.removeChild(input);
   }

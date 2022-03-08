@@ -4,8 +4,12 @@
     color: #fff;
 }
 
+body {
+}
+
 .app-wrapper {
     width: 100%;
+    min-width: 960px;
     background: linear-gradient(135deg, #1C2B35 0%, #111A20 100%);
     min-height: 100vh;
 }
