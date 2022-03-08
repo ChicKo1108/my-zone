@@ -211,7 +211,7 @@ const Article = () => {
 
   return (
     <div className="article-detail">
-      <h1>{article.title}</h1>
+      <h1 className="page-title">{article.title}</h1>
       <ArticleInfo article={article} />
       <ShowMdArea renderTexts={article.content} className="md-area" />
       <LikeButton isLike={isLike} handleClick={handleLikeClick} />

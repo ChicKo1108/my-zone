@@ -3,6 +3,9 @@ import ReactMarkdown from "react-markdown";
 import { KEYBOARD } from "../../enums/keyboard";
 import './style.scss';
 import './markdown.scss';
+import HttpClient from "../../utils/axios";
+import toast from "../../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const SCROLL_AREA = {
     SHOW: 'SHOW',
@@ -126,6 +129,7 @@ const TextArea = ({ setText, writeMdRef, showMdRef }) => {
         <div className="text-area">
             <textarea
                 ref={writeMdRef}
+                placeholder="输入文章正文"
                 onKeyUp={(e) => setText(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, e.target.value)}
                 onScroll={(e) => handleScroll(e, showMdRef, SCROLL_AREA.WRITE)}
@@ -150,19 +154,52 @@ const ShowMdArea = ({ showMdRef, mdTexts, writeMdRef }) => {
 
 const ArticleEditor = () => {
     const [ mdTexts, setMdText ] = useState('');
+    const [ title, setTitle ] = useState('');
+    const [ intro, setIntro ] = useState('');
+    const navigate = useNavigate();
     const showMdRef = useRef(null);
     const writeMdRef = useRef(null);
+
+    function commitArticle() {
+        if (!title || !intro || !mdTexts) {
+            toast.showToast('请检查输入项！');
+            return;
+        }
+        HttpClient.post('/api/article', {
+            title,
+            intro,
+            content: mdTexts,
+        }).then(({ data }) => {
+            if (data.code === 200) {
+                toast.showToast('发表成功！');
+                setTimeout(() => {
+                    navigate.replace('/article?id=' + data.data.insertId);
+                }, 1000);
+            }
+            // console.log(data);
+        })
+    }
     
     return (
-        <>
-            <input textarea="输入文章标题" />
-            <textarea textarea="输入文章简介"></textarea>
-            <div className="article-editor">
+        <div className="article-editor">
+            <div className="title-wrapper">
+                <input placeholder="输入文章标题" onInput={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="intro-wrapper">
+                <textarea placeholder="输入文章简介" onInput={(e) => setIntro(e.target.value)}></textarea>
+            </div>
+            <div className="md-wrapper">
                 <TextArea showMdRef={showMdRef} writeMdRef={writeMdRef} setText={setMdText}  />
                 {/* 未使用组件`ShowMdArea`原因：无法获取函数组件内的ref */}
                 <ShowMdArea showMdRef={showMdRef} writeMdRef={writeMdRef} mdTexts={mdTexts} />
             </div>
-        </>
+            <div className="btn-wrapper">
+                <div className="wrapper">
+                    <div className="btn">保存草稿</div>
+                    <div className="btn" onClick={commitArticle}>发表</div>
+                </div>
+            </div>
+        </div>
     )
 }
 

@@ -34,14 +34,13 @@
     padding: 15px 30px 20px;
     margin: 20px 0;
     border-left: 3px solid #eee;
-    background-color: #fafafa;
+    background-color: #2f454c3b;
     color: #999;
   }
 
   code {
     background-color: #eee;
     padding: 5px 10px;
-    margin: 0 10px;
     border-radius: 0.5em;
     color: #a00000;
     font-size: .8em;
@@ -56,8 +55,8 @@
 
   ol li {
     &::marker {
-      font-size: 0.8em;
-      color: #1000a0;
+      font-size: 1em;
+      color: #eee;
     }
   }
 

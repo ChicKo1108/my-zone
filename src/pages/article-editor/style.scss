@@ -1,44 +1,140 @@
+@mixin bg {
+    background-color: #0028446e;
+    border: 1px solid #2049688c;
+    border-radius: 6px;
+}
+
 .article-editor {
-    // box-sizing: border-box;
-    width: 100%;
-    height: 100vh;
-    padding: 200px 0 0;
+    padding: 100px 0 0;
     padding-bottom: 200px;
-    // margin-bottom: 200px;
-    // background-color: #f9f9f9;
-    display: flex;
-    justify-content: space-between;
 
-    .text-area {
-        width: 49%;
-        height: 100%;
-
-        textarea {
+    .title-wrapper {
+        width: 100%;
+        height: 50px;
+        @include bg;
+        margin-bottom: 10px;
+        
+        input {
             box-sizing: border-box;
-            background-color: #0028446e;
             width: 100%;
             height: 100%;
-            padding: 30px;
-            outline: none;
-            border: none;
-            border: 1px solid #2049688c;
-            border-radius: 16px;
-            resize: none;
-            font-size: 16px;
-            letter-spacing: 2px;
-            line-height: 22px;
+            padding: 5px 15px;
+            font-size: 18px;
             color: #fff;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            &::placeholder {
+                color: rgba($color: #fff, $alpha: 0.5);
+            }
         }
     }
 
-    .markdown-render {
-        box-sizing: border-box;
-        width: 49%;
-        height: 100%;
-        overflow-y: auto;
-        padding: 30px;
-        border-radius: 16px;
-        background-color: #0028446e;
-        letter-spacing: 2px;
+    .intro-wrapper {
+        width: 100%;
+        height: 150px;
+        color: #fff;
+        margin-bottom: 10px;
+        @include bg;
+        textarea {
+            box-sizing: border-box;
+            padding: 5px 15px;
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 18px;
+            resize: none;
+            &::placeholder {
+                color: rgba($color: #fff, $alpha: 0.5);
+            }
+        }
+    }
+
+    .md-wrapper {
+        // box-sizing: border-box;
+        width: 100%;
+        height: 100vh;
+        // margin-bottom: 200px;
+        // background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+    
+        .text-area {
+            width: 49%;
+            height: 100%;
+    
+            textarea {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                padding: 30px;
+                outline: none;
+                border: none;
+                @include bg;
+                resize: none;
+                font-size: 16px;
+                letter-spacing: 2px;
+                line-height: 22px;
+                color: #fff;
+            }
+        }
+    
+        .markdown-render {
+            box-sizing: border-box;
+            width: 49%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px;
+            border-radius: 6px;
+            background-color: #0028446e;
+            letter-spacing: 2px;
+        }
+    }
+
+    .markdown-render, textarea {
+        &::-webkit-scrollbar {
+            width: 10px;
+            background-color: #efefef;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #0021386b;
+            width: 10px;
+        }
+    }
+    
+    .btn-wrapper {
+        width: 100%;
+        height: 80px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: #131d23;
+        border-top: 1px solid #2049688c;
+        display: flex;
+        align-items: center;
+        .wrapper {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 960px;
+            margin: 0 auto;
+
+            .btn {
+                height: 30px;
+                padding: 0 15px;
+                @include bg;
+                line-height: 30px;
+                text-align: center;
+                cursor: pointer;
+                font-size: 14px;
+                margin-left: 20px;
+
+                &:hover {
+                    background-color: #002844;
+                }
+            }
+        }
     }
 }
