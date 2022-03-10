@@ -53,7 +53,7 @@ const AboutMe = () => {
       <section>
         <div className="section-title">职业技能</div>
         {(baseInfo.skills || '').split(';;;').map((v, i) => (
-            <div className="section-line" key={v}>{i}. {v}</div>
+            <div className="section-line" key={v}>{i + 1}. {v}</div>
         ))}
       </section>
       {/* 工作经历 */}

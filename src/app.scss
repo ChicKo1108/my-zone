@@ -5,17 +5,29 @@
 }
 
 .app-wrapper {
-    width: 100%;
-    min-width: 960px;
-    background: linear-gradient(135deg, #1C2B35 0%, #111A20 100%);
-    min-height: 100vh;
+    @media screen and (min-width: 960px) {
+        width: 100%;
+        min-width: 960px;
+    }
+    @media screen and (max-width: 959px) {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+    background: linear-gradient(135deg, #1c2b35 0%, #111a20 100%);
 }
 
+
 .page-wrapper {
-    width: 960px;
-    margin: 0 auto;
+    @media screen and (min-width: 960px) {
+        width: 960px;
+        margin: 0 auto;
+    }
+    @media screen and (max-width: 959px) {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 16px;
+    }
     position: relative;
-    // background-color: #fff;
     min-height: 100vh;
 }
 

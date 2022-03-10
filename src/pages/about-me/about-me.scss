@@ -1,26 +1,45 @@
 .about-me {
-  padding-bottom: 200px;
+  padding-bottom: 100px;
   h1 {
     font-size: 32px;
     line-height: 38px;
-    padding-top: 200px;
+    @media screen and (min-width: 769px) {
+      padding-top: 200px;
+    }
+    @media screen and (max-width: 768px) {
+      padding-top: 50px;
+    }
   }
 
   .section-title {
-    font-size: 18px;
     color: #7AB6D9;
     line-height: 21px;
-    margin-bottom: 24px;
+    font-weight: 300;
+    @media screen and (min-width: 769px) {
+      margin-bottom: 24px;
+      font-size: 18px;
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
   }
 
   section {
     margin-top: 48px;
     .section-line {
       display: flex;
-      margin-top: 18px;
       align-items: center;
-      font-size: 18px;
       line-height: 30px;
+      @media screen and (min-width: 769px) {
+        margin-top: 18px;
+        font-size: 18px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 14px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
       .line-item {
         width: 50%;
       }
@@ -34,10 +53,15 @@
       }
     }
     .job-intro {
-      font-size: 18px;
       line-height: 30px;
       margin-top: 8px;
       text-indent: 2em;
+      @media screen and (min-width: 769px) {
+        font-size: 18px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 14px;
+      }
     }
   }
 }

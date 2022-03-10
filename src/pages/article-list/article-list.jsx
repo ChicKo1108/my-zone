@@ -46,7 +46,7 @@ const ArticleList = () => {
   return (
     <div className="article-list">
       <h1>文章</h1>
-      { articleList.length && articleList.map(v => <ArticleCard article={v} key={v.id} />) }
+      { articleList && articleList.map(v => <ArticleCard article={v} key={v.id} />) }
     </div>
   )
 }

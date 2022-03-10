@@ -2,11 +2,15 @@
   padding-bottom: 200px;
   h1.page-title {
     font-size: 32px;
-    line-height: 38px;
-    padding-top: 200px;
     padding-bottom: 28px;
     border-bottom: 1px solid #7AB6D9;
     margin-bottom: 16px;
+    @media screen and (min-width: 769px) {
+      padding-top: 200px;
+    }
+    @media screen and (max-width: 768px) {
+      padding-top: 50px;
+    }
   }
 
   .article-info {
@@ -144,22 +148,36 @@
   }
 
   .chat-wrapper {
-    margin-top: 70px;
+    @media screen and (min-width: 769px) {
+      margin-top: 70px;
+    }
+    @media screen and (max-width: 768px) {
+      margin-top: 10px;
+    }
     .main-chat {
       .main-name {
         display: flex;
         align-items: flex-end;
         height: 40px;
         .name {
-          font-size: 18px;
-          // line-height: 40px;
+          @media screen and (min-width: 769px) {
+            font-size: 18px;
+          }
+          @media screen and (max-width: 768px) {
+            font-size: 16px;
+          }
         }
       }
     }
     .time {
-      font-size: 14px;
       color: #7AB6D9;
       margin-left: 12px;
+      @media screen and (min-width: 769px) {
+        font-size: 14px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 12px;
+      }
     }
     .reply-btn {
       width: 24px;
@@ -172,15 +190,30 @@
       }
     }
     .content {
-      font-size: 18px;
       margin-top: 8px;
       line-height: 30px;
+      @media screen and (min-width: 769px) {
+        font-size: 16px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 16px;
+      }
     }
     .reply {
       margin-top: 24px;
-      margin-left: 42px;
+      @media screen and (min-width: 769px) {
+        margin-left: 42px;
+      }
+      @media screen and (max-width: 768px) {
+        margin-left: 21px;
+      }
       .reply-name .name {
-        font-size: 18px;
+        @media screen and (min-width: 769px) {
+          font-size: 18px;
+        }
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
       }
       .content {
         text-indent: 2em;
@@ -190,10 +223,16 @@
 
   .comment-list {
     h2 {
-      font-size: 24px;
       line-height: 41px;
       font-weight: normal;
       margin-bottom: 24px;
+      @media screen and (min-width: 769px) {
+        font-size: 24px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 20px;
+        padding-top: 50px;
+      }
     }
   }
 }

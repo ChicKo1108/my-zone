@@ -64,7 +64,7 @@ const DescInfo = ({ wx }) => {
 const ContinueButton = () => {
     const [ isHover, setIsHover ] = useState(false);
     return (
-        <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} className='continue-button'>
+        <div onMouseEnter={() => setIsHover(true)} onClick={() => { window.location = '/article-list' }} onMouseLeave={() => setIsHover(false)} className='continue-button'>
             <span>Continue</span>
             <div className='img' style={{ backgroundImage: `url(${isHover ? heart : heartWhite})` }}></div>
         </div>

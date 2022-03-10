@@ -1,11 +1,15 @@
 .article-list {
   padding-bottom: 200px;
   h1 {
-    padding-top: 200px;
     font-size: 32px;
     line-height: 38px;
     margin-bottom: 53px;
-
+    @media screen and (min-width: 769px) {
+      padding-top: 200px;
+    }
+    @media screen and (max-width: 768px) {
+      padding-top: 50px;
+    }
   }
 
   .article-card {
@@ -25,15 +29,19 @@
     }
 
     .article-title {
-      font-size: 26px;
       line-height: 30px;
       font-weight: bold;
       margin: 16px 0;
       transition: color .3s;
+      @media screen and (min-width: 769px) {
+        font-size: 26px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 20px;
+      }
     }
 
     .article-content {
-      font-size: 18px;
       line-height: 30px;
       margin-bottom: 16px;
       overflow: hidden;
@@ -42,6 +50,12 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       transition: color .3s;
+      @media screen and (min-width: 769px) {
+        font-size: 18px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 16px;
+      }
     }
 
     .infos {
@@ -50,6 +64,12 @@
       align-items: center;
       height: 24px;
       cursor: pointer;
+      @media screen and (min-width: 769px) {
+        font-size: 14px;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: 14px;
+      }
       .item {
         display: flex;
         align-items: center;
