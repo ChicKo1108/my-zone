@@ -29,7 +29,7 @@ const Header = () => {
   setTimeout(() => {
     const header = document.getElementById('header');
     if (!header) return;
-    if (!Utils.isMobile) {
+    if (!Utils.isMobile()) {
       window.addEventListener('scroll', () => {
         if (document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset > 100) {
           header.style.backgroundColor = '#131d23';
